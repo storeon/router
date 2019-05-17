@@ -61,7 +61,8 @@
       "GitHub",
       "createRouter",
       "storeCallback",
-      "RegExp"
+      "RegExp",
+      "params"
     ]
   },
   "eslintConfig": {
