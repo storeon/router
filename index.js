@@ -4,25 +4,25 @@ var loc = location
  * Change event
  * @type {symbol}
  */
-var change = Symbol('change')
+var change = Symbol('@')
 
 /**
  * Changed event
  * @type {symbol}
  */
-var changed = Symbol('changed')
+var changed = Symbol('@')
 
 /**
  * Navigate event
  * @type {symbol}
  */
-var navigate = Symbol('navigate')
+var navigate = Symbol('@')
 
 /**
  * Router key on store
  * @type {symbol}
  */
-var key = Symbol('router')
+var key = Symbol('route')
 
 /**
  * Storeon module for URL routing
