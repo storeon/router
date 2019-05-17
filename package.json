@@ -10,7 +10,8 @@
     "lint": "eslint *.js",
     "api": "documentation build *.js -f md -o api.md",
     "spell": "yarn api && yaspeller *.md",
-    "test": "jest --coverage && yarn lint && size-limit && yarn spell"
+    "test": "jest --coverage && yarn lint && size-limit && yarn spell",
+    "build:example": "parcel build example/index.html --no-cache --no-source-maps --public-url ."
   },
   "devDependencies": {
     "@logux/eslint-config": "^28.2.1",
