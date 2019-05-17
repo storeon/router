@@ -30,7 +30,7 @@ var key = Symbol('route')
  * @return {storeCallback}
  */
 function createRouter (routes) {
-  routes = (routes || [])
+  routes = routes || []
 
   return function (store) {
     store.on('@init', function () {
