@@ -37,24 +37,35 @@ function createRouter (routes) {
       store.dispatch(change, parse(loc.pathname, routes))
     })
 
-    store.on(navigate, function (_, path) {
+    store.on(navigate, function (state, path) {
+      if (state[key].path !== path) {
+        history.pushState(null, null, path)
+      }
+
       store.dispatch(change, parse(path, routes))
       store.dispatch(changed, store.get()[key])
     })
 
     store.on(change, function (state, data) {
-      var newState = {}
-      newState[key] = { match: false }
+      var path = data[0]
+      var route = routes[data[1]]
+      var params = data[2] || []
 
-      if (data) {
-        if (typeof routes[data[0]][1] === 'function') {
-          routes[data[0]][1](data[1] || [])
+      var newState = {}
+      newState[key] = {
+        match: false,
+        path: path
+      }
+
+      if (data.length > 1) {
+        if (typeof route[1] === 'function') {
+          route[1](params)
         }
 
         newState[key] = {
           match: true,
-          path: loc.pathname,
-          params: data[1] || []
+          path: path,
+          params: params
         }
       }
 
@@ -69,7 +80,7 @@ function createRouter (routes) {
  * @private
  * @param {string} path
  * @param {Path[]} routes
- * @return {boolean|*[]}
+ * @return {array}
  */
 function parse (path, routes) {
   var normilized = normalizePath(path)
@@ -81,13 +92,13 @@ function parse (path, routes) {
       var checkPath = normalizePath(item[0])
 
       if (checkPath === normilized) {
-        return [index]
+        return [path, index]
       } else if (checkPath.indexOf('*') >= 0) {
         var re = RegExp('^' + checkPath.replace(/\*/g, '([^/]*)') + '$', 'i')
         var match = normilized.match(re)
 
         if (match) {
-          return [index, [].concat(match).slice(1)]
+          return [path, index, [].concat(match).slice(1)]
         }
       }
     }
@@ -95,12 +106,12 @@ function parse (path, routes) {
     if (item[0] instanceof RegExp) {
       var matchRE = normilized.match(item[0])
       if (matchRE) {
-        return [index, [].concat(matchRE).slice(1)]
+        return [path, index, [].concat(matchRE).slice(1)]
       }
     }
   }
 
-  return false
+  return [path]
 }
 
 /**
@@ -109,7 +120,7 @@ function parse (path, routes) {
  * @return {string}
  */
 function normalizePath (path) {
-  return path.replace(/\/$/, '').replace(/^\//, '')
+  return path.replace(/(^\/|\/$)/g, '')
 }
 
 /**
@@ -135,12 +146,11 @@ function initEventListeners (store) {
       var path = event.target.href.slice(loc.origin.length)
 
       store.dispatch(navigate, path)
-      history.pushState(null, null, path)
     }
   })
 
   window.addEventListener('popstate', function () {
-    if (store.get().path !== loc.pathname) {
+    if (store.get()[key].path !== loc.pathname) {
       store.dispatch(navigate, loc.pathname)
     }
   })
