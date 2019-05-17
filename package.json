@@ -57,7 +57,10 @@
       "versioning",
       "crosstab",
       "gzipped",
-      "GitHub"
+      "GitHub",
+      "createRouter",
+      "storeCallback",
+      "RegExp"
     ]
   },
   "eslintConfig": {
