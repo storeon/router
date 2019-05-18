@@ -59,7 +59,7 @@ function createRouter (routes) {
 
       if (data.length > 1) {
         if (typeof route[1] === 'function') {
-          route[1](params)
+          route[1].apply(null, params)
         }
 
         newState[key] = {

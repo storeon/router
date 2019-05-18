@@ -2,7 +2,7 @@ var createStore = require('storeon')
 
 var router = require('../')
 
-/* eslint es5/no-arrow-functions:0, es5/no-destructuring:0 */
+/* eslint es5/no-rest-parameters:0 */
 
 function increment (store) {
   store.on('@init', function () {
@@ -17,20 +17,20 @@ function increment (store) {
 var store = createStore([
   increment,
   router.createRouter([
-    ['/', function (p) {
-      setStatus('home', p)
+    ['/', function () {
+      setStatus('home', [])
     }],
 
-    ['/simple/', function (p) {
-      return setStatus('simple', p)
+    ['/simple/', function () {
+      return setStatus('simple', [])
     }],
 
-    ['/complex/*/*/', function (p) {
-      return setStatus('complex', p)
+    ['/complex/*/*/', function (...params) {
+      return setStatus('complex', params)
     }],
 
-    [/^dialogs\/([^/]+)(?:\/([^/]+))$/, function (p) {
-      return setStatus('dialogs', p)
+    [/^dialogs\/([^/]+)(?:\/([^/]+))$/, function (...params) {
+      return setStatus('dialogs', params)
     }]
   ])
 ])
