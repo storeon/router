@@ -4,19 +4,19 @@ var loc = location
  * Change event
  * @type {symbol}
  */
-var change = Symbol('@')
+var change = Symbol()
 
 /**
  * Changed event
  * @type {symbol}
  */
-var changed = Symbol('@')
+var changed = Symbol()
 
 /**
  * Navigate event
  * @type {symbol}
  */
-var navigate = Symbol('@')
+var navigate = Symbol()
 
 /**
  * Router key on store

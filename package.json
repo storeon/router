@@ -38,7 +38,7 @@
   },
   "size-limit": [
     {
-      "limit": "605 B",
+      "limit": "603 B",
       "path": "index.js"
     }
   ],
@@ -72,7 +72,8 @@
       "node/no-unpublished-require": "off",
       "es5/no-es6-static-methods": "off",
       "node/no-missing-require": "off",
-      "func-style": "off"
+      "func-style": "off",
+      "symbol-description": "off"
     }
   }
 }
