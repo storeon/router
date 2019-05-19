@@ -2,36 +2,19 @@ var createStore = require('storeon')
 
 var router = require('../')
 
-/* eslint es5/no-rest-parameters:0 */
-
-function increment (store) {
-  store.on('@init', function () {
-    return { count: 0 }
-  })
-
-  store.on('inc', function (state) {
-    return { count: state.count + 1 }
-  })
-}
+/* eslint es5/no-rest-parameters:0, es5/no-arrow-functions:0 */
+/* eslint es5/no-shorthand-properties:0 */
 
 var store = createStore([
-  increment,
   router.createRouter([
-    ['/', function () {
-      setStatus('home', [])
-    }],
+    ['/', () => ({ page: 'home' })],
+    ['/blog', () => ({ page: 'blog' })],
+    ['/blog/post/*', (id) => ({ page: 'post', id })],
 
-    ['/simple/', function () {
-      return setStatus('simple', [])
-    }],
-
-    ['/complex/*/*/', function (...params) {
-      return setStatus('complex', params)
-    }],
-
-    [/^dialogs\/([^/]+)(?:\/([^/]+))$/, function (...params) {
-      return setStatus('dialogs', params)
-    }]
+    [
+      /^blog\/post\/(\d+)\/(\d+)$/,
+      (year, month) => ({ page: 'post', year, month })
+    ]
   ])
 ])
 
@@ -40,12 +23,6 @@ setData(store.get()[router.key])
 store.on(router.changed, function (_, data) {
   setData(data)
 })
-
-function setStatus (name, params) {
-  document
-    .querySelector('.status')
-    .innerText = ['Last known page', name, JSON.stringify(params)].join(' :: ')
-}
 
 function setData (data) {
   document
