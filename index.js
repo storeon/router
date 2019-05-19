@@ -90,6 +90,7 @@ function parse (path, routes) {
 
       if (checkPath.indexOf('*') >= 0) {
         var prepareRe = checkPath
+          .replace(/[-[\]{}()+!<=:?.\\^$|#\s,]/g, '\\$&')
           .replace(/\*/g, '([^/]*)')
         var re = RegExp('^' + prepareRe + '$', 'i')
         var match = normilized.match(re)
