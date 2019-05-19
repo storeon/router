@@ -25,7 +25,7 @@ it('init state', () => {
   ])
 
   var state = getRouterState(store)
-  expect(state.match).toEqual({})
+  expect(state.match).toBeFalsy()
   expect(state.path).toBe('/')
   expect(state.params).toEqual([])
 })
@@ -40,7 +40,7 @@ it('init state for complex path', () => {
 
   var state = getRouterState(store)
 
-  expect(state.match).toEqual({})
+  expect(state.match).toBeFalsy()
   expect(state.path).toBe(complexPath)
   expect(state.params).toEqual([])
 })
@@ -56,7 +56,7 @@ it('navigate dispatch action', () => {
 
   var state = getRouterState(store)
 
-  expect(state.match).toEqual({})
+  expect(state.match).toBeFalsy()
   expect(state.path).toBe(path)
   expect(state.params).toEqual([])
 })
@@ -193,7 +193,7 @@ it('double change browser history', async () => {
     setTimeout(() => {
       var state = getRouterState(store)
 
-      expect(state.match).toEqual({})
+      expect(state.match).toBeTruthy()
       expect(state.path).toBe(path)
       expect(state.params).toEqual([])
 
@@ -222,7 +222,7 @@ it('click link', () => {
 
   var state = getRouterState(store)
 
-  expect(state.match).toEqual({})
+  expect(state.match).toBeTruthy()
   expect(state.path).toBe(path)
   expect(state.params).toEqual([])
 })
@@ -248,7 +248,7 @@ it('click div', () => {
 
   var state = getRouterState(store)
 
-  expect(state.match).toEqual({})
+  expect(state.match).toBeFalsy()
   expect(state.path).toBe('/')
   expect(state.params).toEqual([])
 })
@@ -266,7 +266,7 @@ it('check navigate action', () => {
 
   var state = getRouterState(store)
 
-  expect(state.match).toEqual({})
+  expect(state.match).toBeTruthy()
   expect(state.path).toBe(path)
   expect(state.params).toEqual([])
 })
@@ -285,7 +285,7 @@ it('check navigate action in same path', () => {
 
   var state = getRouterState(store)
 
-  expect(state.match).toEqual({})
+  expect(state.match).toBeTruthy()
   expect(state.path).toBe(path)
   expect(state.params).toEqual([])
 })
