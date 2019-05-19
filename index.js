@@ -53,20 +53,13 @@ function createRouter (routes) {
 
       var newState = {}
       newState[key] = {
-        match: false,
-        path: path
+        match: {},
+        path: path,
+        params: params
       }
 
-      if (data.length > 1) {
-        if (typeof route[1] === 'function') {
-          route[1].apply(null, params)
-        }
-
-        newState[key] = {
-          match: true,
-          path: path,
-          params: params
-        }
+      if (data.length > 1 && typeof route[1] === 'function') {
+        newState[key].match = route[1].apply(null, params)
       }
 
       return newState
@@ -93,8 +86,12 @@ function parse (path, routes) {
 
       if (checkPath === normilized) {
         return [path, index]
-      } else if (checkPath.indexOf('*') >= 0) {
-        var re = RegExp('^' + checkPath.replace(/\*/g, '([^/]*)') + '$', 'i')
+      }
+
+      if (checkPath.indexOf('*') >= 0) {
+        var prepareRe = checkPath
+          .replace(/\*/g, '([^/]*)')
+        var re = RegExp('^' + prepareRe + '$', 'i')
         var match = normilized.match(re)
 
         if (match) {
