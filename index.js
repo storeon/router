@@ -53,13 +53,17 @@ function createRouter (routes) {
 
       var newState = {}
       newState[key] = {
-        match: {},
+        match: false,
         path: path,
         params: params
       }
 
-      if (data.length > 1 && typeof route[1] === 'function') {
-        newState[key].match = route[1].apply(null, params)
+      if (data.length > 1) {
+        if (typeof route[1] === 'function') {
+          newState[key].match = route[1].apply(null, params)
+        } else {
+          newState[key].match = route[1] || true
+        }
       }
 
       return newState
