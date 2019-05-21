@@ -5,7 +5,7 @@
      
 [Storeon] Router which solves the problem of routing your application, providing full control over the route. 
 
-It size is 648 bytes (minified and gzipped) and uses [Size Limit] to control size.
+It size is 635 bytes (minified and gzipped) and uses [Size Limit] to control size.
 
 [Storeon]: https://github.com/storeon/storeon
 [Size Limit]: https://github.com/ai/size-limit
