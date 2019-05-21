@@ -69,7 +69,32 @@ function createRouter (routes) {
       return newState
     })
 
-    initEventListeners(store)
+    document.body.addEventListener('click', function (event) {
+      if (
+        !event.defaultPrevented &&
+        event.target.tagName === 'A' &&
+        event.target.href.indexOf(loc.origin) === 0 &&
+        event.target.target !== '_blank' &&
+        event.button === 0 &&
+        event.which === 1 &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey
+      ) {
+        event.preventDefault()
+
+        var path = event.target.href.slice(loc.origin.length)
+
+        store.dispatch(navigate, path)
+      }
+    })
+
+    window.addEventListener('popstate', function () {
+      if (store.get()[key].path !== loc.pathname) {
+        store.dispatch(navigate, loc.pathname)
+      }
+    })
   }
 }
 
@@ -80,13 +105,13 @@ function createRouter (routes) {
  * @return {array}
  */
 function parse (path, routes) {
-  var normilized = normalizePath(path)
+  var normilized = path.replace(/(^\/|\/$)/g, '')
 
   for (var index = 0; index < routes.length; index++) {
     var item = routes[index]
 
     if (typeof item[0] === 'string') {
-      var checkPath = normalizePath(item[0])
+      var checkPath = item[0].replace(/(^\/|\/$)/g, '')
 
       if (checkPath === normilized) {
         return [path, index]
@@ -114,48 +139,6 @@ function parse (path, routes) {
   }
 
   return [path]
-}
-
-/**
- * @private
- * @param {string} path
- * @return {string}
- */
-function normalizePath (path) {
-  return path.replace(/(^\/|\/$)/g, '')
-}
-
-/**
- * @private
- * @param {Store} store
- */
-function initEventListeners (store) {
-  document.body.addEventListener('click', function (event) {
-    if (
-      !event.defaultPrevented &&
-      event.target.tagName === 'A' &&
-      event.target.href.indexOf(loc.origin) === 0 &&
-      event.target.target !== '_blank' &&
-      event.button === 0 &&
-      event.which === 1 &&
-      !event.metaKey &&
-      !event.ctrlKey &&
-      !event.shiftKey &&
-      !event.altKey
-    ) {
-      event.preventDefault()
-
-      var path = event.target.href.slice(loc.origin.length)
-
-      store.dispatch(navigate, path)
-    }
-  })
-
-  window.addEventListener('popstate', function () {
-    if (store.get()[key].path !== loc.pathname) {
-      store.dispatch(navigate, loc.pathname)
-    }
-  })
 }
 
 module.exports = {
