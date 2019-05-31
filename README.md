@@ -40,29 +40,23 @@ const store = createStore([
   ])
 ])
 
-store.on(router.changed, (state, event) => {
-  if (!event.match) {
-    show404()
-    return
-  }
+function Root() {
+  const { [router.key]: route } = useStoreon(router.key)
 
-  switch (event.match.page) {
-    case 'blog':
-      showBlog()
-      break
-      
-    case 'post':
-      showPost({
-        id: event.match.id,
-        year: event.match.year,
-        month: event.match.month
-      })
-      break
-      
+  switch (route.match.page) {
+    case "home":
+      return <Home/>
+
+    case "blog":
+      return <Blog/>
+
+    case "post":
+      return <Post year={route.match.year} month={route.match.month} id={route.match.id}/>
+
     default:
-      showHome()
+      return <NotFount/>
   }
-})
+}
 
 store.dispatch(router.navigate, '/')
 ```
