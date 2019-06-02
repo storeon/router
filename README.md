@@ -54,7 +54,7 @@ function Root() {
       return <Post year={route.match.year} month={route.match.month} id={route.match.id}/>
 
     default:
-      return <NotFount/>
+      return <NotFound/>
   }
 }
 
