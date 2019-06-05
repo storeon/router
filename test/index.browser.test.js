@@ -1,5 +1,5 @@
 /**
- * @jest-environment: node
+ * @jest-environment: jsdom
  */
 var createStore = require('storeon')
 
@@ -7,6 +7,20 @@ var router = require('../')
 
 /* eslint es5/no-rest-parameters:0, es5/no-arrow-functions:0 */
 /* eslint es5/no-shorthand-properties:0 */
+
+var clickOnBody = () => {}
+beforeAll(() => {
+  jest.spyOn(document.body, 'addEventListener')
+    .mockImplementation((event, callback) => {
+      if (event === 'click') {
+        clickOnBody = callback
+      }
+    })
+})
+
+beforeEach(() => {
+  history.pushState(null, null, '/')
+})
 
 it('init state', () => {
   var store = createStore([
@@ -16,6 +30,21 @@ it('init state', () => {
   var state = getRouterState(store)
   expect(state.match).toBeFalsy()
   expect(state.path).toBe('/')
+  expect(state.params).toEqual([])
+})
+
+it('init state for complex path', () => {
+  var complexPath = '/complex/path/'
+  history.pushState(null, null, complexPath)
+
+  var store = createStore([
+    router.createRouter()
+  ])
+
+  var state = getRouterState(store)
+
+  expect(state.match).toBeFalsy()
+  expect(state.path).toBe(complexPath)
   expect(state.params).toEqual([])
 })
 
@@ -122,8 +151,132 @@ it('regexp route', function () {
   expect(state.params).toEqual(['2019', '05'])
 })
 
+it('change browser history', async () => {
+  var path = '/history-browser'
+  var params = { page: 'history' }
+
+  var store = createStore([
+    router.createRouter([
+      [path, () => params]
+    ])
+  ])
+
+  store.dispatch(router.navigate, path)
+  store.dispatch(router.navigate, '/')
+
+  history.back()
+
+  await new Promise(resolve => {
+    setTimeout(() => {
+      var state = getRouterState(store)
+
+      expect(state.match).toEqual(params)
+      expect(state.path).toBe(path)
+      expect(state.params).toEqual([])
+
+      resolve()
+    }, 100)
+  })
+})
+
+it('double change browser history', async () => {
+  var path = '/history-browser'
+
+  var store = createStore([
+    router.createRouter([
+      [path]
+    ])
+  ])
+
+  history.pushState(null, null, path)
+  history.pushState(null, null, path)
+  history.back()
+
+  await new Promise(resolve => {
+    setTimeout(() => {
+      var state = getRouterState(store)
+
+      expect(state.match).toBeTruthy()
+      expect(state.path).toBe(path)
+      expect(state.params).toEqual([])
+
+      resolve()
+    }, 100)
+  })
+})
+
+it('click link', () => {
+  var path = '/link-click'
+  var store = createStore([
+    router.createRouter([
+      [path]
+    ])
+  ])
+
+  clickOnBody({
+    target: {
+      tagName: 'A',
+      href: ['http://localhost', path].join('')
+    },
+    button: 0,
+    which: 1,
+    preventDefault: () => {}
+  })
+
+  var state = getRouterState(store)
+
+  expect(state.match).toBeTruthy()
+  expect(state.path).toBe(path)
+  expect(state.params).toEqual([])
+})
+
+it('click div', () => {
+  var path = '/link-click'
+
+  var store = createStore([
+    router.createRouter([
+      [path]
+    ])
+  ])
+
+  clickOnBody({
+    target: {
+      tagName: 'DIV',
+      href: ['http://localhost', path].join('')
+    },
+    button: 0,
+    which: 1,
+    preventDefault: () => {}
+  })
+
+  var state = getRouterState(store)
+
+  expect(state.match).toBeFalsy()
+  expect(state.path).toBe('/')
+  expect(state.params).toEqual([])
+})
+
 it('check navigate action', () => {
   var path = '/navigation/'
+
+  var store = createStore([
+    router.createRouter([
+      [path]
+    ])
+  ])
+
+  store.dispatch(router.navigate, path)
+
+  var state = getRouterState(store)
+
+  expect(state.match).toBeTruthy()
+  expect(state.path).toBe(path)
+  expect(state.params).toEqual([])
+})
+
+it('check navigate action in same path', () => {
+  var path = '/navigation/'
+  history.pushState(null, null, path)
 
   var store = createStore([
     router.createRouter([

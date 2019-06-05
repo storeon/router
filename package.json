@@ -2,7 +2,9 @@
   "name": "@storeon/router",
   "version": "0.2.0",
   "description": "Storeon module for URL routing",
-  "main": "index.js",
+  "browser": {
+    "./index.js": "./index.browser.js"
+  },
   "author": "Ivan Solovev <ivan@solovev.one>",
   "license": "MIT",
   "scripts": {
@@ -10,7 +12,7 @@
     "lint": "eslint *.js",
     "api": "documentation build *.js -f md -o api.md",
     "spell": "yarn api && yaspeller *.md",
-    "test": "jest --coverage && yarn lint && size-limit && yarn spell",
+    "test": "jest --coverage --browser && yarn lint && size-limit && yarn spell",
     "build:example": "parcel build example/index.html --no-cache --no-source-maps --public-url .",
     "watch:example": "parcel serve example/index.html --no-cache --no-source-maps",
     "watch:react": "parcel serve example-react/index.html --no-cache --no-source-maps"
@@ -43,7 +45,7 @@
   "size-limit": [
     {
       "limit": "635 B",
-      "path": "index.js"
+      "path": "index.browser.js"
     }
   ],
   "lint-staged": {

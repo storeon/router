@@ -1,3 +1,5 @@
+var loc = location
+
 /**
  * Change event
  * @type {symbol}
@@ -31,7 +33,15 @@ function createRouter (routes) {
   routes = routes || []
 
   return function (store) {
+    store.on('@init', function () {
+      store.dispatch(change, parse(loc.pathname, routes))
+    })
+
     store.on(navigate, function (state, path) {
+      if (state[key].path !== path) {
+        history.pushState(null, null, path)
+      }
+
       store.dispatch(change, parse(path, routes))
       store.dispatch(changed, store.get()[key])
     })
@@ -57,6 +67,33 @@ function createRouter (routes) {
       }
 
       return newState
+    })
+
+    document.body.addEventListener('click', function (event) {
+      if (
+        !event.defaultPrevented &&
+        event.target.tagName === 'A' &&
+        event.target.href.indexOf(loc.origin) === 0 &&
+        event.target.target !== '_blank' &&
+        event.button === 0 &&
+        event.which === 1 &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey
+      ) {
+        event.preventDefault()
+
+        var path = event.target.href.slice(loc.origin.length)
+
+        store.dispatch(navigate, path)
+      }
+    })
+
+    window.addEventListener('popstate', function () {
+      if (store.get()[key].path !== loc.pathname) {
+        store.dispatch(navigate, loc.pathname)
+      }
     })
   }
 }
