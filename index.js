@@ -105,7 +105,7 @@ function createRouter (routes) {
  * @return {array}
  */
 function parse (path, routes) {
-  var normilized = path.replace(/(^\/|\/$)/g, '')
+  var normalized = path.replace(/(^\/|\/$)/g, '')
 
   for (var index = 0; index < routes.length; index++) {
     var item = routes[index]
@@ -113,7 +113,7 @@ function parse (path, routes) {
     if (typeof item[0] === 'string') {
       var checkPath = item[0].replace(/(^\/|\/$)/g, '')
 
-      if (checkPath === normilized) {
+      if (checkPath === normalized) {
         return [path, index]
       }
 
@@ -122,7 +122,7 @@ function parse (path, routes) {
           .replace(/[[\]{}()+!<=:?.\\^$|#\s,]/g, '\\$&')
           .replace(/\*/g, '([^/]*)')
         var re = RegExp('^' + prepareRe + '$', 'i')
-        var match = normilized.match(re)
+        var match = normalized.match(re)
 
         if (match) {
           return [path, index, [].concat(match).slice(1)]
@@ -131,7 +131,7 @@ function parse (path, routes) {
     }
 
     if (item[0] instanceof RegExp) {
-      var matchRE = normilized.match(item[0])
+      var matchRE = normalized.match(item[0])
       if (matchRE) {
         return [path, index, [].concat(matchRE).slice(1)]
       }
