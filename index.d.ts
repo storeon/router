@@ -7,9 +7,9 @@ interface Callback {
 type Route = [string|RegExp, Callback]
 
 declare module StoreonRouter {
-  export const key: symbol;
-  export const changed: symbol;
-  export const navigate: symbol;
+  export const key: unique symbol;
+  export const changed: unique symbol;
+  export const navigate: unique symbol;
 
   export function createRouter<State = unknown>(routes: Route[]): Storeon.Module<State>;
 }
