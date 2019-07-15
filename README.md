@@ -67,9 +67,10 @@ If you want to use the router with Svelte you should import the `router.createRo
 #### `store.js`
 ```js
 import { createSvelteStore } from "@storeon/svelte";
-import router from '@storeon/router'
+import { createRouter } from '@storeon/router'
+
 const connect = createSvelteStore([
-  router.createRouter([
+  createRouter([
     ['/', () => ({ page: 'home' })],
     ['/blog', () => ({ page: 'blog' })],
   ])
