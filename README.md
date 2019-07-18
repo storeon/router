@@ -61,6 +61,35 @@ function Root() {
 store.dispatch(router.navigate, '/')
 ```
 
+## Usage with [Svelte](https://github.com/storeon/svelte):
+If you want to use the router with Svelte you should import the `router.createRouter` from [@storeon/router](https://github.com/storeon/router) and add this module to `createSvelteStore` instead of `createStore`
+
+#### `store.js`
+```js
+import { createSvelteStore } from "@storeon/svelte";
+import { createRouter } from '@storeon/router'
+
+const connect = createSvelteStore([
+  createRouter([
+    ['/', () => ({ page: 'home' })],
+    ['/blog', () => ({ page: 'blog' })],
+  ])
+])
+```
+
+And use it like:
+#### `App.svelte`
+```svelte
+<script>
+  import { connect } from "./store.js";
+  import router from "@storeon/router"
+
+  const moduleRouter = connect(router.key)
+</script>
+
+You can access the router like default svelte store via $:
+{$moduleRouter.match.page}
+```
 
 ## API
 
