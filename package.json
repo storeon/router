@@ -1,6 +1,6 @@
 {
   "name": "@storeon/router",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Storeon module for URL routing",
   "main": "index.js",
   "author": "Ivan Solovev <ivan@solovev.one>",
