@@ -92,7 +92,8 @@ function createRouter (routes) {
 
     window.addEventListener('popstate', function () {
       if (store.get()[key].path !== loc.pathname) {
-        store.dispatch(navigate, loc.pathname)
+        store.dispatch(change, parse(loc.pathname, routes))
+        store.dispatch(changed, store.get()[key])
       }
     })
   }
