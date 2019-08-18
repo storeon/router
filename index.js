@@ -69,7 +69,7 @@ function createRouter (routes) {
       return newState
     })
 
-    document.body.addEventListener('click', function (event) {
+    document.documentElement.addEventListener('click', function (event) {
       if (
         !event.defaultPrevented &&
         event.target.tagName === 'A' &&

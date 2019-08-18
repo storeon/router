@@ -7,7 +7,7 @@ let router = require('../')
 
 let clickOnBody = () => {}
 beforeAll(() => {
-  jest.spyOn(document.body, 'addEventListener')
+  jest.spyOn(document.documentElement, 'addEventListener')
     .mockImplementation((event, callback) => {
       if (event === 'click') {
         clickOnBody = callback
