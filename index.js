@@ -75,6 +75,7 @@ function createRouter (routes) {
         event.target.tagName === 'A' &&
         event.target.href.indexOf(loc.origin) === 0 &&
         event.target.target !== '_blank' &&
+        event.target.dataset['ignoreRouter'] == null &&
         event.button === 0 &&
         event.which === 1 &&
         !event.metaKey &&

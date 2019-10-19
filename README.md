@@ -114,6 +114,10 @@ Function `router.createRouter` could have options:
 `router.changed` – change event of pathname.
 
 
+### Ignore link
+Add `data-ignore-router` attribute to the link so that the router ignores it.
+
+
 ## Sponsor
 
 <p>

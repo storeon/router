@@ -213,7 +213,8 @@ it('click link', () => {
   clickOnBody({
     target: {
       tagName: 'A',
-      href: ['http://localhost', path].join('')
+      href: ['http://localhost', path].join(''),
+      dataset: {}
     },
     button: 0,
     which: 1,
@@ -224,6 +225,34 @@ it('click link', () => {
 
   expect(state.match).toBeTruthy()
   expect(state.path).toBe(path)
+  expect(state.params).toEqual([])
+})
+
+it('click ignore link', () => {
+  let path = '/link-click'
+  let store = createStore([
+    router.createRouter([
+      [path]
+    ])
+  ])
+
+  clickOnBody({
+    target: {
+      tagName: 'A',
+      href: ['http://localhost', path].join(''),
+      dataset: {
+        ignoreRouter: ''
+      }
+    },
+    button: 0,
+    which: 1,
+    preventDefault: () => {}
+  })
+
+  let state = getRouterState(store)
+
+  expect(state.match).toBeFalsy()
+  expect(state.path).toBe('/')
   expect(state.params).toEqual([])
 })
 
@@ -239,7 +268,8 @@ it('click div', () => {
   clickOnBody({
     target: {
       tagName: 'DIV',
-      href: ['http://localhost', path].join('')
+      href: ['http://localhost', path].join(''),
+      dataset: {}
     },
     button: 0,
     which: 1,
