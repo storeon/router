@@ -26,6 +26,7 @@ If you want to use the router you should import the `router.createRouter` from `
 
 ```js
 import createStore from 'storeon'
+import useStoreon from 'storeon/react'
 import router from '@storeon/router'
 
 const store = createStore([
