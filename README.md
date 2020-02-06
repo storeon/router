@@ -2,10 +2,10 @@
 
 <img src="https://storeon.github.io/storeon/logo.svg" align="right"
      alt="Storeon logo by Anton Lovchikov" width="160" height="142">
-     
-[Storeon] Router which solves the problem of routing your application, providing full control over the route. 
 
-It size is 657 bytes (minified and gzipped) and uses [Size Limit] to control size.
+[Storeon] Router which solves the problem of routing your application, providing full control over the route.
+
+It size is 650 bytes (minified and gzipped) and uses [Size Limit] to control size.
 
 [Storeon]: https://github.com/storeon/storeon
 [Size Limit]: https://github.com/ai/size-limit
@@ -15,7 +15,7 @@ It size is 657 bytes (minified and gzipped) and uses [Size Limit] to control siz
 
 ```
 npm install @storeon/router
-# or 
+# or
 yarn add @storeon/router
 ```
 
@@ -122,7 +122,7 @@ Add `data-ignore-router` attribute to the link so that the router ignores it.
 
 <p>
   <a href="https://evrone.com/?utm_source=storeon-router">
-    <img src="https://solovev.one/static/evrone-sponsored-300.png" 
+    <img src="https://solovev.one/static/evrone-sponsored-300.png"
       alt="Sponsored by Evrone" width="210">
   </a>
 </p>
