@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.3.1
+* Reduce size
+
 ## 0.3.0
 * Add ignore link
 
