@@ -75,9 +75,8 @@ function createRouter (routes) {
         event.target.tagName === 'A' &&
         event.target.href.indexOf(loc.origin) === 0 &&
         event.target.target !== '_blank' &&
-        event.target.dataset['ignoreRouter'] == null &&
+        event.target.dataset.ignoreRouter == null &&
         event.button === 0 &&
-        event.which === 1 &&
         !event.metaKey &&
         !event.ctrlKey &&
         !event.shiftKey &&
@@ -121,7 +120,7 @@ function parse (path, routes) {
 
       if (checkPath.indexOf('*') >= 0) {
         var prepareRe = checkPath
-          .replace(/[[\]{}()+!<=:?.\\^$|#\s,]/g, '\\$&')
+          .replace(/[\s!#$()+,.:<=?[\\\]^{|}]/g, '\\$&')
           .replace(/\*/g, '([^/]*)')
         var re = RegExp('^' + prepareRe + '$', 'i')
         var match = normalized.match(re)
