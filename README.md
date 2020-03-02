@@ -63,14 +63,14 @@ store.dispatch(router.navigate, '/')
 ```
 
 ## Usage with [Svelte](https://github.com/storeon/svelte):
-If you want to use the router with Svelte you should import the `router.createRouter` from [@storeon/router](https://github.com/storeon/router) and add this module to `createSvelteStore` instead of `createStore`
+If you want to use the router with Svelte you should import the `router.createRouter` from [@storeon/router](https://github.com/storeon/router) and add this module to `createStore`
 
 #### `store.js`
 ```js
-import { createSvelteStore } from "@storeon/svelte";
+import createStore from 'storeon'
 import { createRouter } from '@storeon/router'
 
-const connect = createSvelteStore([
+export const store = createStore([
   createRouter([
     ['/', () => ({ page: 'home' })],
     ['/blog', () => ({ page: 'blog' })],
@@ -80,16 +80,29 @@ const connect = createSvelteStore([
 
 And use it like:
 #### `App.svelte`
-```svelte
+```html
 <script>
-  import { connect } from "./store.js";
-  import router from "@storeon/router"
+  import { setStore } from '@storeon/svelte'
+  import { store } from './store'
+  import Counter from './Child.svelte'
 
-  const moduleRouter = connect(router.key)
+  setStore(store)
+</script>
+
+<Counter />
+```
+
+#### `Child.svelte`
+```html
+<script>
+  import { getStore } from '@storeon/svelte'
+  import router from '@storeon/router'
+
+  const { [router.key]: route } = getStore(router.key)
 </script>
 
 You can access the router like default svelte store via $:
-{$moduleRouter.match.page}
+{$route.match.page}
 ```
 
 ## API
