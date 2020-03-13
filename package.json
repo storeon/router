@@ -17,8 +17,10 @@
   },
   "devDependencies": {
     "@logux/eslint-config": "^36.1.1",
+    "@size-limit/dual-publish": "^4.3.1",
     "@size-limit/preset-small-lib": "^4.0.1",
     "documentation": "^12.1.4",
+    "dual-publish": "^0.5.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-es5": "^1.5.0",
@@ -44,8 +46,11 @@
   },
   "size-limit": [
     {
-      "limit": "650 B",
-      "path": "index.js"
+      "name": "core",
+      "import": {
+        "index.js": "{ navigate, changed, key, createRouter }"
+      },
+      "limit": "614 B"
     }
   ],
   "lint-staged": {
@@ -73,13 +78,8 @@
     ]
   },
   "eslintConfig": {
-    "extends": "@logux/eslint-config/browser",
+    "extends": "@logux/eslint-config",
     "rules": {
-      "jest/no-truthy-falsy": "off",
-      "node/no-unpublished-require": "off",
-      "es5/no-es6-static-methods": "off",
-      "node/no-missing-require": "off",
-      "func-style": "off",
       "symbol-description": "off"
     }
   }

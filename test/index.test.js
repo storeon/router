@@ -1,9 +1,6 @@
-let createStore = require('storeon')
+let { createStoreon } = require('storeon')
 
 let router = require('../')
-
-/* eslint es5/no-rest-parameters:0, es5/no-arrow-functions:0 */
-/* eslint es5/no-shorthand-properties:0 */
 
 let clickOnBody = () => {}
 beforeAll(() => {
@@ -20,12 +17,12 @@ beforeEach(() => {
 })
 
 it('init state', () => {
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter()
   ])
 
   let state = getRouterState(store)
-  expect(state.match).toBeFalsy()
+  expect(state.match).toBe(false)
   expect(state.path).toBe('/')
   expect(state.params).toEqual([])
 })
@@ -34,13 +31,13 @@ it('init state for complex path', () => {
   let complexPath = '/complex/path/'
   history.pushState(null, null, complexPath)
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter()
   ])
 
   let state = getRouterState(store)
 
-  expect(state.match).toBeFalsy()
+  expect(state.match).toBe(false)
   expect(state.path).toBe(complexPath)
   expect(state.params).toEqual([])
 })
@@ -48,7 +45,7 @@ it('init state for complex path', () => {
 it('navigate dispatch action', () => {
   let path = '/test/'
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter()
   ])
 
@@ -56,7 +53,7 @@ it('navigate dispatch action', () => {
 
   let state = getRouterState(store)
 
-  expect(state.match).toBeFalsy()
+  expect(state.match).toBe(false)
   expect(state.path).toBe(path)
   expect(state.params).toEqual([])
 })
@@ -65,7 +62,7 @@ it('match route', () => {
   let path = '/path-route/'
   let pathMatch = { page: 'home-route' }
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [path, () => pathMatch]
     ])
@@ -85,7 +82,7 @@ it('several paths router', () => {
   let pathSecond = '/path-second'
   let pathThird = '/path-third'
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [pathFirst, () => ({ id: 1 })],
       [pathSecond, () => ({ id: 2 })],
@@ -108,7 +105,7 @@ it('check callback params', () => {
   let path = '/blog/post/2019/05/24'
   let pathMatch = { year: '2019', month: '05', day: '24' }
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       ['/blog/post/*/*/*', (year, month, day) => ({
         year,
@@ -132,7 +129,7 @@ it('regexp route', () => {
   let paramsFirst = year => ({ page: 'post', year })
   let paramsSecond = (year, month) => ({ page: 'post', year, month })
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [/^blog\/post\/(\d+)$/, paramsFirst],
       [/^blog\/post\/(\d+)\/(\d+)$/, paramsSecond]
@@ -152,7 +149,7 @@ it('change browser history', async () => {
   let path = '/history-browser'
   let params = { page: 'history' }
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [path, () => params]
     ])
@@ -179,7 +176,7 @@ it('change browser history', async () => {
 it('double change browser history', async () => {
   let path = '/history-browser'
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [path]
     ])
@@ -193,7 +190,7 @@ it('double change browser history', async () => {
     setTimeout(() => {
       let state = getRouterState(store)
 
-      expect(state.match).toBeTruthy()
+      expect(state.match).toBe(true)
       expect(state.path).toBe(path)
       expect(state.params).toEqual([])
 
@@ -204,7 +201,7 @@ it('double change browser history', async () => {
 
 it('click link', () => {
   let path = '/link-click'
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [path]
     ])
@@ -223,14 +220,14 @@ it('click link', () => {
 
   let state = getRouterState(store)
 
-  expect(state.match).toBeTruthy()
+  expect(state.match).toBe(true)
   expect(state.path).toBe(path)
   expect(state.params).toEqual([])
 })
 
 it('click ignore link', () => {
   let path = '/link-click'
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [path]
     ])
@@ -251,7 +248,7 @@ it('click ignore link', () => {
 
   let state = getRouterState(store)
 
-  expect(state.match).toBeFalsy()
+  expect(state.match).toBe(false)
   expect(state.path).toBe('/')
   expect(state.params).toEqual([])
 })
@@ -259,7 +256,7 @@ it('click ignore link', () => {
 it('click div', () => {
   let path = '/link-click'
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [path]
     ])
@@ -278,7 +275,7 @@ it('click div', () => {
 
   let state = getRouterState(store)
 
-  expect(state.match).toBeFalsy()
+  expect(state.match).toBe(false)
   expect(state.path).toBe('/')
   expect(state.params).toEqual([])
 })
@@ -286,7 +283,7 @@ it('click div', () => {
 it('check navigate action', () => {
   let path = '/navigation/'
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [path]
     ])
@@ -296,7 +293,7 @@ it('check navigate action', () => {
 
   let state = getRouterState(store)
 
-  expect(state.match).toBeTruthy()
+  expect(state.match).toBe(true)
   expect(state.path).toBe(path)
   expect(state.params).toEqual([])
 })
@@ -305,7 +302,7 @@ it('check navigate action in same path', () => {
   let path = '/navigation/'
   history.pushState(null, null, path)
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [path]
     ])
@@ -315,7 +312,7 @@ it('check navigate action in same path', () => {
 
   let state = getRouterState(store)
 
-  expect(state.match).toBeTruthy()
+  expect(state.match).toBe(true)
   expect(state.path).toBe(path)
   expect(state.params).toEqual([])
 })
@@ -324,7 +321,7 @@ it('check changed event', async () => {
   let path = '/changed/'
   let params = { page: 'home' }
 
-  let store = createStore([
+  let store = createStoreon([
     router.createRouter([
       [path, () => params]
     ])

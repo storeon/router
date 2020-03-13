@@ -1,28 +1,28 @@
-var loc = location
+let loc = location
 
 /**
  * Change event
  * @type {symbol}
  */
-var change = Symbol()
+let change = Symbol()
 
 /**
  * Changed event
  * @type {symbol}
  */
-var changed = Symbol()
+let changed = Symbol()
 
 /**
  * Navigate event
  * @type {symbol}
  */
-var navigate = Symbol()
+let navigate = Symbol()
 
 /**
  * Router key on store
  * @type {symbol}
  */
-var key = Symbol('route')
+let key = Symbol('route')
 
 /**
  * Storeon module for URL routing
@@ -33,11 +33,11 @@ function createRouter (routes) {
   routes = routes || []
 
   return function (store) {
-    store.on('@init', function () {
+    store.on('@init', () => {
       store.dispatch(change, parse(loc.pathname, routes))
     })
 
-    store.on(navigate, function (state, path) {
+    store.on(navigate, (state, path) => {
       if (state[key].path !== path) {
         history.pushState(null, null, path)
       }
@@ -46,16 +46,16 @@ function createRouter (routes) {
       store.dispatch(changed, store.get()[key])
     })
 
-    store.on(change, function (state, data) {
-      var path = data[0]
-      var route = routes[data[1]]
-      var params = data[2] || []
+    store.on(change, (state, data) => {
+      let path = data[0]
+      let route = routes[data[1]]
+      let params = data[2] || []
 
-      var newState = {}
+      let newState = {}
       newState[key] = {
         match: false,
-        path: path,
-        params: params
+        path,
+        params
       }
 
       if (data.length > 1) {
@@ -69,7 +69,7 @@ function createRouter (routes) {
       return newState
     })
 
-    document.documentElement.addEventListener('click', function (event) {
+    document.documentElement.addEventListener('click', event => {
       if (
         !event.defaultPrevented &&
         event.target.tagName === 'A' &&
@@ -83,14 +83,11 @@ function createRouter (routes) {
         !event.altKey
       ) {
         event.preventDefault()
-
-        var path = event.target.href.slice(loc.origin.length)
-
-        store.dispatch(navigate, path)
+        store.dispatch(navigate, event.target.href.slice(loc.origin.length))
       }
     })
 
-    window.addEventListener('popstate', function () {
+    window.addEventListener('popstate', () => {
       if (store.get()[key].path !== loc.pathname) {
         store.dispatch(change, parse(loc.pathname, routes))
         store.dispatch(changed, store.get()[key])
@@ -106,24 +103,22 @@ function createRouter (routes) {
  * @return {array}
  */
 function parse (path, routes) {
-  var normalized = path.replace(/(^\/|\/$)/g, '')
+  let normalized = path.replace(/(^\/|\/$)/g, '')
 
-  for (var index = 0; index < routes.length; index++) {
-    var item = routes[index]
-
+  for (let [index, item] of routes.entries()) {
     if (typeof item[0] === 'string') {
-      var checkPath = item[0].replace(/(^\/|\/$)/g, '')
+      let checkPath = item[0].replace(/(^\/|\/$)/g, '')
 
       if (checkPath === normalized) {
         return [path, index]
       }
 
-      if (checkPath.indexOf('*') >= 0) {
-        var prepareRe = checkPath
+      if (checkPath.includes('*')) {
+        let prepareRe = checkPath
           .replace(/[\s!#$()+,.:<=?[\\\]^{|}]/g, '\\$&')
           .replace(/\*/g, '([^/]*)')
-        var re = RegExp('^' + prepareRe + '$', 'i')
-        var match = normalized.match(re)
+        let re = RegExp('^' + prepareRe + '$', 'i')
+        let match = normalized.match(re)
 
         if (match) {
           return [path, index, [].concat(match).slice(1)]
@@ -132,7 +127,7 @@ function parse (path, routes) {
     }
 
     if (item[0] instanceof RegExp) {
-      var matchRE = normalized.match(item[0])
+      let matchRE = normalized.match(item[0])
       if (matchRE) {
         return [path, index, [].concat(matchRE).slice(1)]
       }
@@ -143,10 +138,10 @@ function parse (path, routes) {
 }
 
 module.exports = {
-  navigate: navigate,
-  changed: changed,
-  key: key,
-  createRouter: createRouter
+  navigate,
+  changed,
+  key,
+  createRouter
 }
 
 /**
