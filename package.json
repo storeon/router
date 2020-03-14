@@ -46,9 +46,8 @@
   },
   "size-limit": [
     {
-      "name": "core",
       "import": {
-        "index.js": "{ navigate, changed, key, createRouter }"
+        "index.js": "{ routerNavigate, routerChanged, routerKey, createRouter }"
       },
       "limit": "614 B"
     }
@@ -74,7 +73,10 @@
       "createRouter",
       "storeCallback",
       "RegExp",
-      "params"
+      "params",
+      "routerChanged",
+      "routerNavigate",
+      "routerKey"
     ]
   },
   "eslintConfig": {

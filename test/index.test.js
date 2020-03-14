@@ -49,7 +49,7 @@ it('navigate dispatch action', () => {
     router.createRouter()
   ])
 
-  store.dispatch(router.navigate, path)
+  store.dispatch(router.routerNavigate, path)
 
   let state = getRouterState(store)
 
@@ -68,7 +68,7 @@ it('match route', () => {
     ])
   ])
 
-  store.dispatch(router.navigate, path)
+  store.dispatch(router.routerNavigate, path)
 
   let state = getRouterState(store)
 
@@ -90,9 +90,9 @@ it('several paths router', () => {
     ])
   ])
 
-  store.dispatch(router.navigate, pathThird)
-  store.dispatch(router.navigate, pathFirst)
-  store.dispatch(router.navigate, pathSecond)
+  store.dispatch(router.routerNavigate, pathThird)
+  store.dispatch(router.routerNavigate, pathFirst)
+  store.dispatch(router.routerNavigate, pathSecond)
 
   let state = getRouterState(store)
 
@@ -115,7 +115,7 @@ it('check callback params', () => {
     ])
   ])
 
-  store.dispatch(router.navigate, path)
+  store.dispatch(router.routerNavigate, path)
 
   let state = getRouterState(store)
 
@@ -136,7 +136,7 @@ it('regexp route', () => {
     ])
   ])
 
-  store.dispatch(router.navigate, path)
+  store.dispatch(router.routerNavigate, path)
 
   let state = getRouterState(store)
 
@@ -155,8 +155,8 @@ it('change browser history', async () => {
     ])
   ])
 
-  store.dispatch(router.navigate, path)
-  store.dispatch(router.navigate, '/')
+  store.dispatch(router.routerNavigate, path)
+  store.dispatch(router.routerNavigate, '/')
 
   history.back()
 
@@ -289,7 +289,7 @@ it('check navigate action', () => {
     ])
   ])
 
-  store.dispatch(router.navigate, path)
+  store.dispatch(router.routerNavigate, path)
 
   let state = getRouterState(store)
 
@@ -308,7 +308,7 @@ it('check navigate action in same path', () => {
     ])
   ])
 
-  store.dispatch(router.navigate, path)
+  store.dispatch(router.routerNavigate, path)
 
   let state = getRouterState(store)
 
@@ -327,7 +327,7 @@ it('check changed event', async () => {
     ])
   ])
 
-  store.on(router.changed, async () => {
+  store.on(router.routerChanged, async () => {
     let state = getRouterState(store)
 
     expect(state.match).toEqual(params)
@@ -337,7 +337,7 @@ it('check changed event', async () => {
     return Promise.resolve()
   })
 
-  store.dispatch(router.navigate, path)
+  store.dispatch(router.routerNavigate, path)
 })
 
 /**
@@ -346,5 +346,5 @@ it('check changed event', async () => {
  * @return {{ match: boolean, path: string, params: Array }}
  */
 function getRouterState (store) {
-  return store.get()[router.key]
+  return store.get()[router.routerKey]
 }

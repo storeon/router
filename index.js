@@ -10,19 +10,19 @@ let change = Symbol()
  * Changed event
  * @type {symbol}
  */
-let changed = Symbol()
+let routerChanged = Symbol()
 
 /**
  * Navigate event
  * @type {symbol}
  */
-let navigate = Symbol()
+let routerNavigate = Symbol()
 
 /**
- * Router key on store
+ * Router routerKey on store
  * @type {symbol}
  */
-let key = Symbol('route')
+let routerKey = Symbol('route')
 
 /**
  * Storeon module for URL routing
@@ -37,13 +37,13 @@ function createRouter (routes) {
       store.dispatch(change, parse(loc.pathname, routes))
     })
 
-    store.on(navigate, (state, path) => {
-      if (state[key].path !== path) {
+    store.on(routerNavigate, (state, path) => {
+      if (state[routerKey].path !== path) {
         history.pushState(null, null, path)
       }
 
       store.dispatch(change, parse(path, routes))
-      store.dispatch(changed, store.get()[key])
+      store.dispatch(routerChanged, store.get()[routerKey])
     })
 
     store.on(change, (state, data) => {
@@ -52,7 +52,7 @@ function createRouter (routes) {
       let params = data[2] || []
 
       let newState = {}
-      newState[key] = {
+      newState[routerKey] = {
         match: false,
         path,
         params
@@ -60,9 +60,9 @@ function createRouter (routes) {
 
       if (data.length > 1) {
         if (typeof route[1] === 'function') {
-          newState[key].match = route[1].apply(null, params)
+          newState[routerKey].match = route[1].apply(null, params)
         } else {
-          newState[key].match = route[1] || true
+          newState[routerKey].match = route[1] || true
         }
       }
 
@@ -83,14 +83,17 @@ function createRouter (routes) {
         !event.altKey
       ) {
         event.preventDefault()
-        store.dispatch(navigate, event.target.href.slice(loc.origin.length))
+        store.dispatch(
+          routerNavigate,
+          event.target.href.slice(loc.origin.length)
+        )
       }
     })
 
     window.addEventListener('popstate', () => {
-      if (store.get()[key].path !== loc.pathname) {
+      if (store.get()[routerKey].path !== loc.pathname) {
         store.dispatch(change, parse(loc.pathname, routes))
-        store.dispatch(changed, store.get()[key])
+        store.dispatch(routerChanged, store.get()[routerKey])
       }
     })
   }
@@ -138,9 +141,9 @@ function parse (path, routes) {
 }
 
 module.exports = {
-  navigate,
-  changed,
-  key,
+  routerNavigate,
+  routerChanged,
+  routerKey,
   createRouter
 }
 
