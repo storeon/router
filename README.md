@@ -22,18 +22,18 @@ yarn add @storeon/router
 
 ## Usage
 
-If you want to use the router you should import the `router.createRouter` from `@storeon/router` and add this module to `createStore`.
+If you want to use the router you should import the `createRouter` from `@storeon/router` and add this module to `createStoreon`.
 
 ```js
-import createStore from 'storeon'
-import useStoreon from 'storeon/react'
-import router from '@storeon/router'
+import { createStoreon } from 'storeon'
+import { createRouter, routerChanged, routerKey } from '@storeon/router'
 
-const store = createStore([
-  router.createRouter([
+const store = createStoreon([
+  createRouter([
     ['/', () => ({ page: 'home' })],
     ['/blog', () => ({ page: 'blog' })],
     ['/blog/post/*', (id) => ({ page: 'post', id })],
+
     [
       /^blog\/post\/(\d+)\/(\d+)$/,
       (year, month) => ({ page: 'post', year, month })
@@ -41,93 +41,51 @@ const store = createStore([
   ])
 ])
 
-function Root() {
-  const { [router.key]: route } = useStoreon(router.key)
+setData(store.get()[routerKey])
 
-  switch (route.match.page) {
-    case "home":
-      return <Home/>
+store.on(routerChanged, function (_, data) {
+  setData(data)
+})
 
-    case "blog":
-      return <Blog/>
-
-    case "post":
-      return <Post year={route.match.year} month={route.match.month} id={route.match.id}/>
-
-    default:
-      return <NotFound/>
-  }
+function setData (data) {
+  document
+    .querySelector('.data')
+    .innerText = JSON.stringify(data)
 }
-
-store.dispatch(router.navigate, '/')
 ```
 
-## Usage with [Svelte](https://github.com/storeon/svelte):
-If you want to use the router with Svelte you should import the `router.createRouter` from [@storeon/router](https://github.com/storeon/router) and add this module to `createStore`
 
-#### `store.js`
-```js
-import createStore from 'storeon'
-import { createRouter } from '@storeon/router'
+## Examples
 
-export const store = createStore([
-  createRouter([
-    ['/', () => ({ page: 'home' })],
-    ['/blog', () => ({ page: 'blog' })],
-  ])
-])
-```
+* [Vanilla](./examples/vanilla/)
+* [React/Preact](./examples/react/)
+* [Svelte](./examples/svelte/)
 
-And use it like:
-#### `App.svelte`
-```html
-<script>
-  import { setStore } from '@storeon/svelte'
-  import { store } from './store'
-  import Counter from './Child.svelte'
-
-  setStore(store)
-</script>
-
-<Counter />
-```
-
-#### `Child.svelte`
-```html
-<script>
-  import { getStore } from '@storeon/svelte'
-  import router from '@storeon/router'
-
-  const { [router.key]: route } = getStore(router.key)
-</script>
-
-You can access the router like default svelte store via $:
-{$route.match.page}
-```
 
 ## API
 
 ```js
-import router from '@storeon/router'
+import { createRouter } from '@storeon/router'
 
-const moduleRouter = router.createRouter([
+const moduleRouter = createRouter([
   [path, callback]
 ])
 ```
 
-Function `router.createRouter` could have options:
+Function `createRouter` could have options:
 
 * __path__: path name can be a string or RegExp.
 * __callback__: the callback function must return an object with parameters for this path.
 
-`router.key` – key for store.
+`routerKey` – key for store.
 
-`router.navigate` – navigation action.
+`routerNavigate` – navigation action.
 
-`router.changed` – change event of pathname.
+`routerChanged` – change event of pathname.
 
 
 ### Ignore link
+
 Add `data-ignore-router` attribute to the link so that the router ignores it.
 
 

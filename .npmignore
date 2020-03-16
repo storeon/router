@@ -8,5 +8,4 @@ yarn.lock
 api.md
 coverage/
 dist/
-example/
-example-react/
+examples/

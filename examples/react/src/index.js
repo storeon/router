@@ -1,4 +1,4 @@
-/* eslint-disable es5/no-modules,no-unused-vars */
+/* eslint-disable no-unused-vars */
 
 import React from 'react'
 import { render } from 'react-dom'
