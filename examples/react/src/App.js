@@ -1,20 +1,17 @@
-/* eslint-disable es5/no-modules,no-unused-vars,es5/no-arrow-functions */
-/* eslint-disable es5/no-block-scoping,es5/no-shorthand-properties */
-/* eslint-disable es5/no-computed-properties,es5/no-destructuring */
+/* eslint-disable no-unused-vars */
 
 import React from 'react'
-import createStore from 'storeon'
-import useStoreon from 'storeon/react'
-import StoreContext from 'storeon/react/context'
+import { createStoreon } from 'storeon'
+import { useStoreon, StoreContext } from 'storeon/react'
 
-import router from '../'
+import { createRouter, routerKey } from '../../../'
 import { Home, Blog, Post, NotFound } from './components'
 
-const store = createStore([
-  router.createRouter([
+const store = createStoreon([
+  createRouter([
     ['/', () => ({ page: 'home' })],
     ['/blog', () => ({ page: 'blog' })],
-    ['/blog/post/*', (id) => ({ page: 'post', id })],
+    ['/blog/post/*', id => ({ page: 'post', id })],
     [
       /^blog\/post\/(\d+)\/(\d+)$/,
       (year, month) => ({ page: 'post', year, month })
@@ -23,7 +20,7 @@ const store = createStore([
 ])
 
 function Router () {
-  const { [router.key]: route } = useStoreon(router.key)
+  let { [routerKey]: route } = useStoreon(routerKey)
 
   switch (route.match.page) {
     case 'home':

@@ -1,0 +1,7 @@
+{
+  "name": "example-svelte",
+  "dependencies": {
+    "@storeon/svelte": "^0.5.2",
+    "svelte": "^3.20.0"
+  }
+}

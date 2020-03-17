@@ -7,13 +7,14 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf api.md",
-    "lint": "eslint *.js test/*.js",
+    "lint": "eslint *.js test/*.js examples/**/*.js",
     "api": "documentation build *.js -f md -o api.md",
     "spell": "yarn api && yaspeller *.md",
     "test": "jest --coverage && yarn lint && size-limit && yarn spell",
-    "build:example": "parcel build example/index.html --no-cache --no-source-maps --public-url .",
-    "watch:example": "parcel serve example/index.html --no-cache --no-source-maps",
-    "watch:react": "parcel serve example-react/index.html --no-cache --no-source-maps"
+    "build:example": "parcel build examples/vanilla/index.html --no-cache --no-source-maps --public-url .",
+    "watch:vanilla": "parcel serve examples/vanilla/index.html --no-cache --no-source-maps",
+    "watch:react": "parcel serve examples/react/src/index.html --no-cache --no-source-maps",
+    "watch:svelte": "parcel serve examples/svelte/src/index.html --no-cache --no-source-maps"
   },
   "devDependencies": {
     "@logux/eslint-config": "^36.1.1",
@@ -37,8 +38,7 @@
     "jest": "^25.1.0",
     "lint-staged": "^10.0.7",
     "parcel-bundler": "^1.12.4",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "parcel-plugin-svelte": "^4.0.6",
     "rimraf": "^3.0.1",
     "size-limit": "^4.0.1",
     "storeon": "^2.0.1",
@@ -66,6 +66,7 @@
     "ignoreCapitalization": true,
     "dictionary": [
       "storeon",
+      "preact",
       "versioning",
       "crosstab",
       "gzipped",
