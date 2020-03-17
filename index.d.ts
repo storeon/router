@@ -1,15 +1,11 @@
 import { StoreonModule } from "storeon";
 
-interface Callback {
-  (...props: string[]): Object;
-}
+export type Path = string | RegExp;
+export type Callback = (...props: string[]) => Object;
+export type Route = [Path, Callback];
 
-type Route = [string|RegExp, Callback];
+export function createRouter<State = unknown>(routes: Route[]): StoreonModule<State>;
 
-export declare module StoreonRouter {
-  export const key: unique symbol;
-  export const changed: unique symbol;
-  export const navigate: unique symbol;
-
-  export function createRouter<State = unknown>(routes: Route[]): StoreonModule<State>;
-}
+export const routerKey: unique symbol;
+export const routerChanged: unique symbol;
+export const routerNavigate: unique symbol;

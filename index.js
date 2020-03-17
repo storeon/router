@@ -2,32 +2,27 @@ let loc = location
 
 /**
  * Change event
- * @type {symbol}
  */
 let change = Symbol()
 
 /**
  * Changed event
- * @type {symbol}
  */
 let routerChanged = Symbol()
 
 /**
  * Navigate event
- * @type {symbol}
  */
 let routerNavigate = Symbol()
 
 /**
  * Router routerKey on store
- * @type {symbol}
  */
 let routerKey = Symbol('route')
 
 /**
  * Storeon module for URL routing
- * @param {Path[]} routes
- * @return {storeCallback}
+ * @param {Route[]} routes
  */
 function createRouter (routes) {
   routes = routes || []
@@ -102,8 +97,8 @@ function createRouter (routes) {
 /**
  * @private
  * @param {string} path
- * @param {Path[]} routes
- * @return {array}
+ * @param {Route[]} routes
+ * @return {[string, number, string[]]}
  */
 function parse (path, routes) {
   let normalized = path.replace(/(^\/|\/$)/g, '')
@@ -146,24 +141,3 @@ module.exports = {
   routerKey,
   createRouter
 }
-
-/**
- * @typedef {array} Path
- * @property {string | RegExp} 0
- * @property {?function} 1
- */
-
-/**
- * @private
- * @callback storeCallback
- * @param {Store} store
- */
-
-/**
- * @private
- * @name Store
- * @class
- * @method get
- * @method dispatch
- * @method on
- */
