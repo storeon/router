@@ -178,7 +178,7 @@ it('double change browser history', async () => {
 
   let store = createStoreon([
     router.createRouter([
-      [path]
+      [path, () => true]
     ])
   ])
 
@@ -203,7 +203,7 @@ it('click link', () => {
   let path = '/link-click'
   let store = createStoreon([
     router.createRouter([
-      [path]
+      [path, () => true]
     ])
   ])
 
@@ -229,7 +229,7 @@ it('click ignore link', () => {
   let path = '/link-click'
   let store = createStoreon([
     router.createRouter([
-      [path]
+      [path, () => true]
     ])
   ])
 
@@ -258,7 +258,7 @@ it('click div', () => {
 
   let store = createStoreon([
     router.createRouter([
-      [path]
+      [path, () => true]
     ])
   ])
 
@@ -285,7 +285,7 @@ it('check navigate action', () => {
 
   let store = createStoreon([
     router.createRouter([
-      [path]
+      [path, () => true]
     ])
   ])
 
@@ -304,7 +304,7 @@ it('check navigate action in same path', () => {
 
   let store = createStoreon([
     router.createRouter([
-      [path]
+      [path, () => true]
     ])
   ])
 

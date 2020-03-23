@@ -49,11 +49,7 @@ function createRouter (routes = []) {
       }
 
       if (route) {
-        if (typeof route[1] === 'function') {
-          newState[routerKey].match = route[1](...params)
-        } else {
-          newState[routerKey].match = true
-        }
+        newState[routerKey].match = route[1](...params)
       }
 
       return newState
