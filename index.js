@@ -24,10 +24,8 @@ let routerKey = Symbol('route')
  * Storeon module for URL routing
  * @param {Route[]} routes
  */
-function createRouter (routes) {
-  routes = routes || []
-
-  return function (store) {
+function createRouter (routes = []) {
+  return store => {
     store.on('@init', () => {
       store.dispatch(change, parse(loc.pathname, routes))
     })
@@ -41,11 +39,8 @@ function createRouter (routes) {
       store.dispatch(routerChanged, store.get()[routerKey])
     })
 
-    store.on(change, (state, data) => {
-      let path = data[0]
-      let route = routes[data[1]]
-      let params = data[2] || []
-
+    store.on(change, (state, [path, index, params = []]) => {
+      let route = routes[index]
       let newState = {}
       newState[routerKey] = {
         match: false,
@@ -53,11 +48,11 @@ function createRouter (routes) {
         params
       }
 
-      if (data.length > 1) {
+      if (route) {
         if (typeof route[1] === 'function') {
-          newState[routerKey].match = route[1].apply(null, params)
+          newState[routerKey].match = route[1](...params)
         } else {
-          newState[routerKey].match = route[1] || true
+          newState[routerKey].match = true
         }
       }
 
@@ -103,9 +98,9 @@ function createRouter (routes) {
 function parse (path, routes) {
   let normalized = path.replace(/(^\/|\/$)/g, '')
 
-  for (let [index, item] of routes.entries()) {
-    if (typeof item[0] === 'string') {
-      let checkPath = item[0].replace(/(^\/|\/$)/g, '')
+  for (let [index, [itemPath]] of routes.entries()) {
+    if (typeof itemPath === 'string') {
+      let checkPath = itemPath.replace(/(^\/|\/$)/g, '')
 
       if (checkPath === normalized) {
         return [path, index]
@@ -119,15 +114,15 @@ function parse (path, routes) {
         let match = normalized.match(re)
 
         if (match) {
-          return [path, index, [].concat(match).slice(1)]
+          return [path, index, match.slice(1)]
         }
       }
     }
 
-    if (item[0] instanceof RegExp) {
-      let matchRE = normalized.match(item[0])
+    if (itemPath instanceof RegExp) {
+      let matchRE = normalized.match(itemPath)
       if (matchRE) {
-        return [path, index, [].concat(matchRE).slice(1)]
+        return [path, index, matchRE.slice(1)]
       }
     }
   }
