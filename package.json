@@ -1,6 +1,6 @@
 {
   "name": "@storeon/router",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "description": "Storeon module for URL routing",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -73,7 +73,9 @@
       "params",
       "routerChanged",
       "routerNavigate",
-      "routerKey"
+      "routerKey",
+      "ES2016",
+      "ES"
     ]
   },
   "eslintConfig": {
