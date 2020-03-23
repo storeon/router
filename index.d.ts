@@ -1,7 +1,7 @@
 import { StoreonModule } from "storeon";
 
 export type Path = string | RegExp;
-export type Callback = (...props: string[]) => Object;
+export type Callback = (...props: string[]) => unknown;
 export type Route = [Path, Callback];
 
 export function createRouter<State = unknown>(routes: Route[]): StoreonModule<State>;
