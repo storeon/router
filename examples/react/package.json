@@ -1,8 +1,8 @@
 {
   "name": "example-react",
   "dependencies": {
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "storeon": "^2.0.1"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "storeon": "^2.0.2"
   }
 }
