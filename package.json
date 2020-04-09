@@ -1,6 +1,6 @@
 {
   "name": "@storeon/router",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Storeon module for URL routing",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -62,6 +62,7 @@
     "ignoreCapitalization": true,
     "dictionary": [
       "storeon",
+      "DevTools",
       "preact",
       "versioning",
       "crosstab",

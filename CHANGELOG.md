@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.1
+* Fix listeners for DevTools
+
 ## 1.0.0
 * Rename named exports to `routerKey`, `routerChanged`, `routerNavigate`.
 * Add ES modules support.
