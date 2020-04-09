@@ -45,7 +45,7 @@
       "import": {
         "index.js": "{ routerNavigate, routerChanged, routerKey, createRouter }"
       },
-      "limit": "570 B"
+      "limit": "574 B"
     }
   ],
   "lint-staged": {

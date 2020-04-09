@@ -30,6 +30,8 @@ function createRouter (routes = []) {
       store.dispatch(change, parse(loc.pathname, routes))
     })
 
+    store.on(routerChanged, () => {})
+
     store.on(routerNavigate, (state, path) => {
       if (state[routerKey].path !== path) {
         history.pushState(null, null, path)
