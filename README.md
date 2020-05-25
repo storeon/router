@@ -87,8 +87,3 @@ Function `createRouter` could have options:
 ### Ignore link
 
 Add `data-ignore-router` attribute to the link so that the router ignores it.
-
-
-## LICENSE
-
-MIT
