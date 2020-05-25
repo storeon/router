@@ -209,9 +209,10 @@ it('click link', () => {
 
   clickOnBody({
     target: {
-      tagName: 'A',
-      href: ['http://localhost', path].join(''),
-      dataset: {}
+      closest: () => ({
+        href: ['http://localhost', path].join(''),
+        dataset: {}
+      })
     },
     button: 0,
     which: 1,
@@ -235,11 +236,12 @@ it('click ignore link', () => {
 
   clickOnBody({
     target: {
-      tagName: 'A',
-      href: ['http://localhost', path].join(''),
-      dataset: {
-        ignoreRouter: ''
-      }
+      closest: () => ({
+        href: ['http://localhost', path].join(''),
+        dataset: {
+          ignoreRouter: ''
+        }
+      })
     },
     button: 0,
     which: 1,
@@ -264,9 +266,7 @@ it('click div', () => {
 
   clickOnBody({
     target: {
-      tagName: 'DIV',
-      href: ['http://localhost', path].join(''),
-      dataset: {}
+      closest: () => null
     },
     button: 0,
     which: 1,

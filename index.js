@@ -58,12 +58,13 @@ function createRouter (routes = []) {
     })
 
     document.documentElement.addEventListener('click', event => {
+      let link = event.target.closest('a')
       if (
         !event.defaultPrevented &&
-        event.target.tagName === 'A' &&
-        event.target.href.indexOf(loc.origin) === 0 &&
-        event.target.target !== '_blank' &&
-        event.target.dataset.ignoreRouter == null &&
+        link != null &&
+        link.href.indexOf(loc.origin) === 0 &&
+        link.target !== '_blank' &&
+        link.dataset.ignoreRouter == null &&
         event.button === 0 &&
         !event.metaKey &&
         !event.ctrlKey &&
@@ -73,7 +74,7 @@ function createRouter (routes = []) {
         event.preventDefault()
         store.dispatch(
           routerNavigate,
-          event.target.href.slice(loc.origin.length)
+          link.href.slice(loc.origin.length)
         )
       }
     })
