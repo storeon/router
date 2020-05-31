@@ -1,11 +1,13 @@
 import { StoreonModule } from "storeon";
 
 declare namespace createRouter{
-    export type RoutesState<MatchParams> = {
-        [routerKey]: {
-            match: MatchParams
-        }
+  export type RoutesState<MatchParams> = {
+    [routerKey]: {
+      match: MatchParams | boolean,
+      path: string,
+      params: string[],
     }
+  }
 }
 
 export type Path = string | RegExp;
