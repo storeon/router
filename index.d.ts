@@ -1,10 +1,18 @@
 import { StoreonModule } from "storeon";
 
-export type Path = string | RegExp;
-export type Callback = (...props: string[]) => unknown;
-export type Route = [Path, Callback];
+declare namespace createRouter{
+    export type RoutesState<MatchParams> = {
+        [routerKey]: {
+            match: MatchParams
+        }
+    }
+}
 
-export function createRouter<State = unknown>(routes: Route[]): StoreonModule<State>;
+export type Path = string | RegExp;
+export type Callback<MatchParams> = (...props: string[]) => MatchParams;
+export type Route<MatchParam> = [Path, Callback<MatchParam>];
+
+export function createRouter<MatchParam>(routes: Route<MatchParam>[]): StoreonModule<createRouter.RoutesState<MatchParam>>;
 
 export const routerKey: unique symbol;
 export const routerChanged: unique symbol;
