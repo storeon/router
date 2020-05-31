@@ -1,12 +1,12 @@
 name: Test
 
 on:
-- push
+  - push
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Run a one-line script
-      run: yarn run test
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: yarn run test
