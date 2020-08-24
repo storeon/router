@@ -1,4 +1,4 @@
-name: Deploy
+name: CD
 
 on:
   push:
@@ -6,14 +6,14 @@ on:
       - master
 
 jobs:
-  build:
+  deploy:
+    name: Build and deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies and build
-        run: |
-          yarn install
-          yarn run build:example
+      - run: yarn install
+      - name: Build
+        run: yarn run build:example
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
