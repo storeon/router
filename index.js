@@ -72,10 +72,7 @@ function createRouter (routes = []) {
         !event.altKey
       ) {
         event.preventDefault()
-        store.dispatch(
-          routerNavigate,
-          link.href.slice(loc.origin.length)
-        )
+        store.dispatch(routerNavigate, link.href.slice(loc.origin.length))
       }
     })
 

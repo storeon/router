@@ -22,7 +22,5 @@ store.on(routerChanged, (_, data) => {
 })
 
 function setData (data) {
-  document
-    .querySelector('.data')
-    .textContent = JSON.stringify(data)
+  document.querySelector('.data').textContent = JSON.stringify(data)
 }

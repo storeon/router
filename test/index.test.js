@@ -4,7 +4,8 @@ let router = require('../')
 
 let clickOnBody = () => {}
 beforeAll(() => {
-  jest.spyOn(document.documentElement, 'addEventListener')
+  jest
+    .spyOn(document.documentElement, 'addEventListener')
     .mockImplementation((event, callback) => {
       if (event === 'click') {
         clickOnBody = callback
@@ -17,9 +18,7 @@ beforeEach(() => {
 })
 
 it('init state', () => {
-  let store = createStoreon([
-    router.createRouter()
-  ])
+  let store = createStoreon([router.createRouter()])
 
   let state = getRouterState(store)
   expect(state.match).toBe(false)
@@ -31,9 +30,7 @@ it('init state for complex path', () => {
   let complexPath = '/complex/path/'
   history.pushState(null, null, complexPath)
 
-  let store = createStoreon([
-    router.createRouter()
-  ])
+  let store = createStoreon([router.createRouter()])
 
   let state = getRouterState(store)
 
@@ -45,9 +42,7 @@ it('init state for complex path', () => {
 it('navigate dispatch action', () => {
   let path = '/test/'
 
-  let store = createStoreon([
-    router.createRouter()
-  ])
+  let store = createStoreon([router.createRouter()])
 
   store.dispatch(router.routerNavigate, path)
 
@@ -62,11 +57,7 @@ it('match route', () => {
   let path = '/path-route/'
   let pathMatch = { page: 'home-route' }
 
-  let store = createStoreon([
-    router.createRouter([
-      [path, () => pathMatch]
-    ])
-  ])
+  let store = createStoreon([router.createRouter([[path, () => pathMatch]])])
 
   store.dispatch(router.routerNavigate, path)
 
@@ -107,11 +98,14 @@ it('check callback params', () => {
 
   let store = createStoreon([
     router.createRouter([
-      ['/blog/post/*/*/*', (year, month, day) => ({
-        year,
-        month,
-        day
-      })]
+      [
+        '/blog/post/*/*/*',
+        (year, month, day) => ({
+          year,
+          month,
+          day
+        })
+      ]
     ])
   ])
 
@@ -149,11 +143,7 @@ it('change browser history', async () => {
   let path = '/history-browser'
   let params = { page: 'history' }
 
-  let store = createStoreon([
-    router.createRouter([
-      [path, () => params]
-    ])
-  ])
+  let store = createStoreon([router.createRouter([[path, () => params]])])
 
   store.dispatch(router.routerNavigate, path)
   store.dispatch(router.routerNavigate, '/')
@@ -176,11 +166,7 @@ it('change browser history', async () => {
 it('double change browser history', async () => {
   let path = '/history-browser'
 
-  let store = createStoreon([
-    router.createRouter([
-      [path, () => true]
-    ])
-  ])
+  let store = createStoreon([router.createRouter([[path, () => true]])])
 
   history.pushState(null, null, path)
   history.pushState(null, null, path)
@@ -201,11 +187,7 @@ it('double change browser history', async () => {
 
 it('click link', () => {
   let path = '/link-click'
-  let store = createStoreon([
-    router.createRouter([
-      [path, () => true]
-    ])
-  ])
+  let store = createStoreon([router.createRouter([[path, () => true]])])
 
   clickOnBody({
     target: {
@@ -228,11 +210,7 @@ it('click link', () => {
 
 it('click ignore link', () => {
   let path = '/link-click'
-  let store = createStoreon([
-    router.createRouter([
-      [path, () => true]
-    ])
-  ])
+  let store = createStoreon([router.createRouter([[path, () => true]])])
 
   clickOnBody({
     target: {
@@ -258,11 +236,7 @@ it('click ignore link', () => {
 it('click div', () => {
   let path = '/link-click'
 
-  let store = createStoreon([
-    router.createRouter([
-      [path, () => true]
-    ])
-  ])
+  let store = createStoreon([router.createRouter([[path, () => true]])])
 
   clickOnBody({
     target: {
@@ -283,11 +257,7 @@ it('click div', () => {
 it('check navigate action', () => {
   let path = '/navigation/'
 
-  let store = createStoreon([
-    router.createRouter([
-      [path, () => true]
-    ])
-  ])
+  let store = createStoreon([router.createRouter([[path, () => true]])])
 
   store.dispatch(router.routerNavigate, path)
 
@@ -302,11 +272,7 @@ it('check navigate action in same path', () => {
   let path = '/navigation/'
   history.pushState(null, null, path)
 
-  let store = createStoreon([
-    router.createRouter([
-      [path, () => true]
-    ])
-  ])
+  let store = createStoreon([router.createRouter([[path, () => true]])])
 
   store.dispatch(router.routerNavigate, path)
 
@@ -321,11 +287,7 @@ it('check changed event', async () => {
   let path = '/changed/'
   let params = { page: 'home' }
 
-  let store = createStoreon([
-    router.createRouter([
-      [path, () => params]
-    ])
-  ])
+  let store = createStoreon([router.createRouter([[path, () => params]])])
 
   store.on(router.routerChanged, async () => {
     let state = getRouterState(store)
