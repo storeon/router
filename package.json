@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint *.js test/*.js examples/**/*.js",
+    "spell": "yaspeller *.md",
     "test": "jest --coverage && yarn lint && size-limit && yaspeller *.md",
     "build:example": "parcel build examples/vanilla/index.html --experimental-scope-hoisting --no-cache --no-source-maps --public-url .",
     "watch:vanilla": "parcel serve examples/vanilla/index.html --no-cache --no-source-maps",
