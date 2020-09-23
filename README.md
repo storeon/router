@@ -3,9 +3,9 @@
 <img src="https://storeon.github.io/storeon/logo.svg" align="right"
      alt="Storeon logo by Anton Lovchikov" width="160" height="142">
 
-[Storeon] Router which solves the problem of routing your application, providing full control over the route.
+[Storeon] Router solves the problems of routing while seamlessly providing full control.
 
-It size is 577 bytes (minified and gzipped) and uses [Size Limit] to control size.
+Its size is 577 bytes (minified and gzipped) and uses [Size Limit] to control size.
 
 [Storeon]: https://github.com/storeon/storeon
 [Size Limit]: https://github.com/ai/size-limit
