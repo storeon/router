@@ -68,7 +68,8 @@
       "routerNavigate",
       "routerKey",
       "ES2016",
-      "ES"
+      "ES",
+      "seamlessly"
     ]
   },
   "eslintConfig": {
