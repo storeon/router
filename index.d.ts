@@ -26,7 +26,7 @@ export type RouterState<MatchParameters> = {
 };
 
 export type RouterEvents<MatchParameters> = {
-  [routerChanged]: RouterState<MatchParameters>;
+  [routerChanged]: RouterRecordState<MatchParameters>;
   [routerNavigate]: string;
 };
 
