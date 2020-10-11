@@ -4,5 +4,9 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "storeon": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.51",
+    "@types/react-dom": "^16.9.8"
   }
 }
