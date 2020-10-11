@@ -1,21 +1,41 @@
 import { StoreonModule } from "storeon";
 
-declare namespace createRouter{
-  export type RoutesState<MatchParams> = {
-    [routerKey]: {
-      match: MatchParams | boolean,
-      path: string,
-      params: string[],
-    }
-  }
-}
+/**
+ * Router key on store
+ */
+export const routerKey: unique symbol;
+
+/**
+ * Event changes a path
+ */
+export const routerChanged: unique symbol;
+
+/**
+ * Navigate event
+ */
+export const routerNavigate: unique symbol;
+
+export type RouterRecordState<MatchParameters> = {
+  match: MatchParameters | false;
+  path: string;
+  params: string[];
+};
+
+export type RouterState<MatchParameters> = {
+  [routerKey]: RouterRecordState<MatchParameters>;
+};
+
+export type RouterEvents<MatchParameters> = {
+  [routerChanged]: RouterState<MatchParameters>;
+  [routerNavigate]: string;
+};
 
 export type Path = string | RegExp;
-export type Callback<MatchParams> = (...props: string[]) => MatchParams;
-export type Route<MatchParam> = [Path, Callback<MatchParam>];
+export type Callback<MatchParameters> = (
+  ...properties: string[]
+) => MatchParameters;
+export type Route<MatchParameter> = [Path, Callback<MatchParameter>];
 
-export function createRouter<MatchParam>(routes: Route<MatchParam>[]): StoreonModule<createRouter.RoutesState<MatchParam>>;
-
-export const routerKey: unique symbol;
-export const routerChanged: unique symbol;
-export const routerNavigate: unique symbol;
+export function createRouter<MatchParameter>(
+  routes: Route<MatchParameter>[],
+): StoreonModule<RouterState<MatchParameter>, RouterEvents<MatchParameter>>;
