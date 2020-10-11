@@ -39,6 +39,7 @@
     "parcel-plugin-svelte": "^4.0.6",
     "size-limit": "^4.6.0",
     "storeon": "^3.0.3",
+    "typescript": "^4.0.3",
     "yaspeller": "^7.0.0"
   },
   "size-limit": [

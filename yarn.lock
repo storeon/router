@@ -6915,7 +6915,7 @@ parcel-bundler@^1.12.4:
     json5 "^1.0.1"
     micromatch "^3.0.4"
     mkdirp "^0.5.1"
-    node-forge "^0.10.0"
+    node-forge "^0.7.1"
     node-libs-browser "^2.0.0"
     opn "^5.1.0"
     postcss "^7.0.11"
@@ -9299,6 +9299,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typescript@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-4.0.3.tgz#153bbd468ef07725c1df9c77e8b453f8d36abba5"
+  integrity sha512-tEu6DGxGgRJPb/mVPIZ48e69xCn2yRmCgYmDugAVwmJ6o+0u1RI18eO7E7WBTLYLaEVVOhwQmcdhQHweux/WPg==
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"
