@@ -13,7 +13,7 @@ Its size is 577 bytes (minified and gzipped) and uses [Size Limit] to control si
 
 ```js
 import { createStoreon } from 'storeon'
-import { createRouter, routerChanged, routerKey } from '@storeon/router'
+import { createRouter, routerChanged, routerKey, routerNavigate } from '@storeon/router'
 
 const store = createStoreon([
   createRouter([
@@ -33,6 +33,10 @@ setData(store.get()[routerKey])
 store.on(routerChanged, function (_, data) {
   setData(data)
 })
+
+function navigateToFirstPost () {
+  store.dispatch(routerNavigate, '/blog/post/first-post')
+}
 
 function setData (data) {
   document
